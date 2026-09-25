@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1,
+    "date": "2026-09-25",
+    "pytanie": "Wyświetl imię i nazwisko klientów oraz nazwę miejscowości, w której znajdują się ich dane rozliczeniowe. Połącz odpowiednie tabele za pomocą klucza obcego.",
+    "wskazowka": "SELECT ... FROM tabela1 JOIN tabela2 ON warunek;",
+    "odpowiedz": "SELECT k.imie, k.nazwisko, m.nazwa FROM Klienci k JOIN dane_rozliczeniowe_klientow d ON k.id = d.klient_id JOIN miejscowosci m ON d.miejscowosc_id = m.id;"
+  },
+  {
+    "id": 2,
+    "date": "2026-09-25",
+    "pytanie": "Wyświetl imię, nazwisko i stanowisko wszystkich pracowników. Wyniki posortuj alfabetycznie według nazwiska.",
+    "wskazowka": "SELECT ... FROM tabela1 JOIN tabela2 ON ... ORDER BY ... ASC;",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, s.nazwa_stanowiska FROM pracownicy p JOIN stanowiska s ON p.stanowiska_id = s.id ORDER BY p.nazwisko ASC;"
+  },
+  {
+    "id": 3,
+    "date": "2026-09-26",
+    "pytanie": "Wyświetl model samochodu, nazwę marki oraz rok produkcji samochodów wyprodukowanych od 2022 roku. Posortuj wynik od najnowszego rocznika.",
+    "wskazowka": "SELECT ... FROM tabela1 JOIN tabela2 ON ... WHERE ... >= ... ORDER BY ... DESC;",
+    "odpowiedz": "SELECT s.model, m.nazwa, s.rocznik FROM samochody s JOIN marki m ON s.marki_id = m.id WHERE s.rocznik >= 2022 ORDER BY s.rocznik DESC;"
+  },
+  {
+    "id": 4,
+    "date": "2026-09-26",
+    "pytanie": "Wyświetl imię i nazwisko pracowników oraz kwoty ich wypłat. Uwzględnij tylko wypłaty większe niż 5000 zł i posortuj je malejąco według kwoty.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... ON ... WHERE ... > ... ORDER BY ... DESC;",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, w.kwota FROM pracownicy p JOIN wyplaty w ON p.id = w.pracownik_id WHERE w.kwota > 5000 ORDER BY w.kwota DESC;"
+  },
+  {
+    "id": 5,
+    "date": "2026-09-27",
+    "pytanie": "Wyświetl dane samochodów, które są obecnie dostępne. Wynik powinien zawierać model, markę, rocznik i stan samochodu.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... ON ... JOIN ... ON ... WHERE ... = ...;",
+    "odpowiedz": "SELECT s.model, m.nazwa AS marka, s.rocznik, ss.nazwa AS stan FROM samochody s JOIN marki m ON s.marki_id = m.id JOIN stan_samochodow ss ON s.stan_id = ss.id WHERE ss.nazwa = 'Dostępny';"
+  },
+  {
+    "id": 6,
+    "date": "2026-09-27",
+    "pytanie": "Wyświetl imię i nazwisko klientów, którzy wypożyczali samochody marki Volkswagen. Każdy klient powinien pojawić się w wyniku tylko raz.",
+    "wskazowka": "SELECT DISTINCT ... FROM ... JOIN ... ON ... WHERE ... = ...;",
+    "odpowiedz": "SELECT DISTINCT k.imie, k.nazwisko FROM Klienci k JOIN wypozyczenia w ON k.id = w.Klient_id JOIN samochody s ON w.VIN_samochodu = s.VIN JOIN marki m ON s.marki_id = m.id WHERE m.nazwa = 'Volkswagen';"
+  },
+  {
+    "id": 7,
+    "date": "2026-09-27",
+    "pytanie": "Wyświetl model samochodu oraz liczbę jego wypożyczeń. Uwzględnij wszystkie samochody, także te, które nie zostały jeszcze wypożyczone.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... LEFT JOIN ... ON ... GROUP BY ...;",
+    "odpowiedz": "SELECT s.model, COUNT(w.VIN_samochodu) AS liczba_wypozyczen FROM samochody s LEFT JOIN wypozyczenia w ON s.VIN = w.VIN_samochodu GROUP BY s.VIN, s.model;"
+  },
+  {
+    "id": 8,
+    "date": "2026-09-28",
+    "pytanie": "Wyświetl nazwę stanowiska oraz liczbę pracowników zatrudnionych na każdym stanowisku. Uwzględnij również stanowiska, na których nie ma pracowników.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... LEFT JOIN ... ON ... GROUP BY ...;",
+    "odpowiedz": "SELECT s.nazwa_stanowiska, COUNT(p.id) AS liczba_pracownikow FROM stanowiska s LEFT JOIN pracownicy p ON s.id = p.stanowiska_id GROUP BY s.id, s.nazwa_stanowiska;"
+  },
+  {
+    "id": 9,
+    "date": "2026-09-29",
+    "pytanie": "Wyświetl imię i nazwisko każdego pracownika oraz sumę wszystkich wypłat tego pracownika. Posortuj wynik malejąco według sumy wypłat.",
+    "wskazowka": "SELECT ..., SUM(...) FROM ... JOIN ... ON ... GROUP BY ... ORDER BY ... DESC;",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, SUM(w.kwota) AS suma_wyplat FROM pracownicy p JOIN wyplaty w ON p.id = w.pracownik_id GROUP BY p.id, p.imie, p.nazwisko ORDER BY suma_wyplat DESC;"
+  },
+  {
+    "id": 10,
+    "date": "2026-09-29",
+    "pytanie": "Wyświetl markę samochodu oraz średni stan licznika samochodów tej marki. Wynik zaokrąglij do dwóch miejsc po przecinku.",
+    "wskazowka": "SELECT ..., ROUND(AVG(...), 2) FROM ... JOIN ... ON ... GROUP BY ...;",
+    "odpowiedz": "SELECT m.nazwa, ROUND(AVG(s.stan_licznika), 2) AS sredni_przebieg FROM marki m JOIN samochody s ON m.id = s.marki_id GROUP BY m.id, m.nazwa;"
+  },
+  {
+    "id": 11,
+    "date": "2026-09-30",
+    "pytanie": "Wyświetl imię i nazwisko klientów oraz łączną kwotę, jaką zapłacili za wszystkie zakończone wypożyczenia. Uwzględnij tylko klientów, dla których suma przekracza 3000 zł.",
+    "wskazowka": "SELECT ..., SUM(...) FROM ... JOIN ... ON ... WHERE ... GROUP BY ... HAVING SUM(...) > ...;",
+    "odpowiedz": "SELECT k.imie, k.nazwisko, SUM(w.kwota_do_zaplaty) AS suma_wypozyczen FROM Klienci k JOIN wypozyczenia w ON k.id = w.Klient_id WHERE w.status_wypozyczenia_id = 3 GROUP BY k.id, k.imie, k.nazwisko HAVING SUM(w.kwota_do_zaplaty) > 3000;"
+  },
+  {
+    "id": 12,
+    "date": "2026-09-30",
+    "pytanie": "Wyświetl modele samochodów, które były wypożyczane co najmniej 5 razy.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... JOIN ... ON ... GROUP BY ... HAVING COUNT(...) >= ...;",
+    "odpowiedz": "SELECT s.model, COUNT(w.VIN_samochodu) AS liczba_wypozyczen FROM samochody s JOIN wypozyczenia w ON s.VIN = w.VIN_samochodu GROUP BY s.VIN, s.model HAVING COUNT(w.VIN_samochodu) >= 5;"
+  },
+  {
+    "id": 13,
+    "date": "2026-09-30",
+    "pytanie": "Wyświetl nazwę miejscowości oraz liczbę klientów posiadających w niej dane rozliczeniowe. Posortuj wynik malejąco według liczby klientów.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... JOIN ... ON ... JOIN ... ON ... GROUP BY ... ORDER BY ... DESC;",
+    "odpowiedz": "SELECT m.nazwa, COUNT(d.klient_id) AS liczba_klientow FROM miejscowosci m JOIN dane_rozliczeniowe_klientow d ON m.id = d.miejscowosc_id GROUP BY m.id, m.nazwa ORDER BY liczba_klientow DESC;"
+  },
+  {
+    "id": 14,
+    "date": "2026-10-01",
+    "pytanie": "Wyświetl imię i nazwisko pracowników, którzy otrzymali przynajmniej jedną wypłatę większą niż 6000 zł. Każdy pracownik powinien wystąpić tylko raz.",
+    "wskazowka": "SELECT DISTINCT ... FROM ... JOIN ... ON ... WHERE ... > ...;",
+    "odpowiedz": "SELECT DISTINCT p.imie, p.nazwisko FROM pracownicy p JOIN wyplaty w ON p.id = w.pracownik_id WHERE w.kwota > 6000;"
+  },
+  {
+    "id": 15,
+    "date": "2026-10-02",
+    "pytanie": "Wyświetl dane wypożyczeń z marca 2026 roku. Wynik powinien zawierać imię i nazwisko klienta, model samochodu, datę wypożyczenia i kwotę do zapłaty.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... ON ... WHERE data >= ... AND data < ... ORDER BY ...;",
+    "odpowiedz": "SELECT k.imie, k.nazwisko, s.model, w.data_wypozyczenia, w.kwota_do_zaplaty FROM wypozyczenia w JOIN Klienci k ON w.Klient_id = k.id JOIN samochody s ON w.VIN_samochodu = s.VIN WHERE w.data_wypozyczenia >= '2026-03-01' AND w.data_wypozyczenia < '2026-04-01' ORDER BY w.data_wypozyczenia;"
+  },
+  {
+    "id": 16,
+    "date": "2026-10-03",
+    "pytanie": "Wyświetl wszystkie wypożyczenia wraz z imieniem i nazwiskiem pracownika nadzorującego oraz nazwą statusu wypożyczenia.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... ON ... JOIN ... ON ...;",
+    "odpowiedz": "SELECT w.data_wypozyczenia, p.imie, p.nazwisko, sw.nazwa FROM wypozyczenia w JOIN pracownicy p ON w.id_pracownika_nadzorujacego = p.id JOIN status_wypozyczenia sw ON w.status_wypozyczenia_id = sw.id;"
+  },
+  {
+    "id": 17,
+    "date": "2026-10-03",
+    "pytanie": "Oblicz średnią kwotę wypożyczenia dla każdego klienta. Wyświetl tylko klientów, których średnia kwota przekracza 1200 zł.",
+    "wskazowka": "SELECT ..., AVG(...) FROM ... JOIN ... GROUP BY ... HAVING AVG(...) > ...;",
+    "odpowiedz": "SELECT k.imie, k.nazwisko, ROUND(AVG(w.kwota_do_zaplaty), 2) AS srednia_kwota FROM Klienci k JOIN wypozyczenia w ON k.id = w.Klient_id GROUP BY k.id, k.imie, k.nazwisko HAVING AVG(w.kwota_do_zaplaty) > 1200;"
+  },
+  {
+    "id": 18,
+    "date": "2026-10-03",
+    "pytanie": "Wyświetl marki oraz maksymalny stan licznika samochodu należącego do każdej marki.",
+    "wskazowka": "SELECT ..., MAX(...) FROM ... JOIN ... GROUP BY ...;",
+    "odpowiedz": "SELECT m.nazwa, MAX(s.stan_licznika) AS maksymalny_przebieg FROM marki m JOIN samochody s ON m.id = s.marki_id GROUP BY m.id, m.nazwa;"
+  },
+  {
+    "id": 19,
+    "date": "2026-10-04",
+    "pytanie": "Wyświetl pracowników, którzy pełnią funkcję mechanika, oraz liczbę wypłat otrzymanych przez każdego z nich.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... JOIN ... JOIN ... WHERE ... GROUP BY ...;",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, COUNT(w.id) AS liczba_wyplat FROM pracownicy p JOIN stanowiska s ON p.stanowiska_id = s.id LEFT JOIN wyplaty w ON p.id = w.pracownik_id WHERE s.nazwa_stanowiska = 'Mechanik' GROUP BY p.id, p.imie, p.nazwisko;"
+  },
+  {
+    "id": 20,
+    "date": "2026-10-04",
+    "pytanie": "Wyświetl samochody, które nie były jeszcze wypożyczane.",
+    "wskazowka": "SELECT ... FROM tabela1 LEFT JOIN tabela2 ON ... WHERE tabela2.klucz IS NULL;",
+    "odpowiedz": "SELECT s.VIN, s.model FROM samochody s LEFT JOIN wypozyczenia w ON s.VIN = w.VIN_samochodu WHERE w.VIN_samochodu IS NULL;"
+  },
+  {
+    "id": 21,
+    "date": "2026-10-05",
+    "pytanie": "Wyświetl imię, nazwisko i kwotę najwyższej wypłaty otrzymanej przez każdego pracownika.",
+    "wskazowka": "SELECT ..., MAX(...) FROM ... JOIN ... GROUP BY ...;",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, MAX(w.kwota) AS najwyzsza_wyplata FROM pracownicy p JOIN wyplaty w ON p.id = w.pracownik_id GROUP BY p.id, p.imie, p.nazwisko;"
+  },
+  {
+    "id": 22,
+    "date": "2026-10-05",
+    "pytanie": "Wyświetl samochody marki BMW, których przebieg jest mniejszy niż 40000 km.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... ON ... WHERE ... = ... AND ... < ...;",
+    "odpowiedz": "SELECT s.model, s.rocznik, s.stan_licznika FROM samochody s JOIN marki m ON s.marki_id = m.id WHERE m.nazwa = 'BMW' AND s.stan_licznika < 40000;"
+  },
+  {
+    "id": 23,
+    "date": "2026-10-06",
+    "pytanie": "Wyświetl klientów, którzy mieli wypożyczenie o statusie „Opóźniony zwrot”.",
+    "wskazowka": "SELECT DISTINCT ... FROM ... JOIN ... ON ... JOIN ... ON ... WHERE ... = ...;",
+    "odpowiedz": "SELECT DISTINCT k.imie, k.nazwisko FROM Klienci k JOIN wypozyczenia w ON k.id = w.Klient_id JOIN status_wypozyczenia sw ON w.status_wypozyczenia_id = sw.id WHERE sw.nazwa = 'Opóźniony zwrot';"
+  },
+  {
+    "id": 24,
+    "date": "2026-10-06",
+    "pytanie": "Wyświetl sumę wypłat dla każdego roku znajdującego się w tabeli wyplaty. Posortuj wynik rosnąco według roku.",
+    "wskazowka": "SELECT YEAR(data), SUM(...) FROM ... GROUP BY YEAR(data) ORDER BY ... ASC;",
+    "odpowiedz": "SELECT YEAR(data) AS rok, SUM(kwota) AS suma_wyplat FROM wyplaty GROUP BY YEAR(data) ORDER BY rok ASC;"
+  },
+  {
+    "id": 25,
+    "date": "2026-10-07",
+    "pytanie": "Wyświetl liczbę wypożyczeń przypadających na każdy rok. Uwzględnij tylko wypożyczenia zakończone statusem „Zwrócone”.",
+    "wskazowka": "SELECT YEAR(...), COUNT(...) FROM ... WHERE ... = ... GROUP BY YEAR(...);",
+    "odpowiedz": "SELECT YEAR(data_wypozyczenia) AS rok, COUNT(*) AS liczba_wypozyczen FROM wypozyczenia WHERE status_wypozyczenia_id = 3 GROUP BY YEAR(data_wypozyczenia) ORDER BY rok;"
+  },
+  {
+    "id": 26,
+    "date": "2026-10-07",
+    "pytanie": "Wyświetl nazwę sposobu rozliczenia oraz liczbę wypłat wykonanych przy jego użyciu.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... JOIN ... ON ... GROUP BY ...;",
+    "odpowiedz": "SELECT sr.nazwa, COUNT(w.id) AS liczba_wyplat FROM sposoby_rozliczenia sr LEFT JOIN wyplaty w ON sr.id = w.sposoby_rozliczenia_id GROUP BY sr.id, sr.nazwa;"
+  },
+  {
+    "id": 27,
+    "date": "2026-10-08",
+    "pytanie": "Wyświetl klientów, którzy wypożyczyli samochód marki Audi, oraz liczbę takich wypożyczeń.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... JOIN ... JOIN ... WHERE ... GROUP BY ...;",
+    "odpowiedz": "SELECT k.imie, k.nazwisko, COUNT(*) AS liczba_wypozyczen FROM Klienci k JOIN wypozyczenia w ON k.id = w.Klient_id JOIN samochody s ON w.VIN_samochodu = s.VIN JOIN marki m ON s.marki_id = m.id WHERE m.nazwa = 'Audi' GROUP BY k.id, k.imie, k.nazwisko;"
+  },
+  {
+    "id": 28,
+    "date": "2026-10-08",
+    "pytanie": "Wyświetl model samochodu i całkowitą kwotę wszystkich jego wypożyczeń. Posortuj malejąco według tej kwoty.",
+    "wskazowka": "SELECT ..., SUM(...) FROM ... JOIN ... ON ... GROUP BY ... ORDER BY ... DESC;",
+    "odpowiedz": "SELECT s.model, SUM(w.kwota_do_zaplaty) AS suma_przychodu FROM samochody s JOIN wypozyczenia w ON s.VIN = w.VIN_samochodu GROUP BY s.VIN, s.model ORDER BY suma_przychodu DESC;"
+  },
+  {
+    "id": 29,
+    "date": "2026-10-09",
+    "pytanie": "Wyświetl pracowników wraz z nazwą stanowiska, którzy otrzymali wypłatę w styczniu 2025 roku.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... WHERE data >= ... AND data < ...;",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, s.nazwa_stanowiska, w.kwota FROM pracownicy p JOIN stanowiska s ON p.stanowiska_id = s.id JOIN wyplaty w ON p.id = w.pracownik_id WHERE w.data >= '2025-01-01' AND w.data < '2025-02-01';"
+  },
+  {
+    "id": 30,
+    "date": "2026-10-09",
+    "pytanie": "Wyświetl klientów, którzy mają dane rozliczeniowe we Wrocławiu lub Krakowie.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... ON ... WHERE kolumna IN (...);",
+    "odpowiedz": "SELECT k.imie, k.nazwisko, m.nazwa FROM Klienci k JOIN dane_rozliczeniowe_klientow d ON k.id = d.klient_id JOIN miejscowosci m ON d.miejscowosc_id = m.id WHERE m.nazwa IN ('Wrocław', 'Kraków');"
+  },
+  {
+    "id": 31,
+    "date": "2026-10-10",
+    "pytanie": "Wyświetl samochody, których model zawiera w nazwie literę „a”. Wynik posortuj alfabetycznie według modelu.",
+    "wskazowka": "SELECT ... FROM ... WHERE kolumna LIKE '%znak%' ORDER BY ... ASC;",
+    "odpowiedz": "SELECT VIN, model, rocznik FROM samochody WHERE model LIKE '%a%' ORDER BY model ASC;"
+  },
+  {
+    "id": 32,
+    "date": "2026-10-10",
+    "pytanie": "Wyświetl imię i nazwisko klientów, których nazwisko rozpoczyna się na literę „K”.",
+    "wskazowka": "SELECT ... FROM ... WHERE kolumna LIKE 'znak%';",
+    "odpowiedz": "SELECT imie, nazwisko FROM Klienci WHERE nazwisko LIKE 'K%';"
+  },
+  {
+    "id": 33,
+    "date": "2026-10-10",
+    "pytanie": "Wyświetl samochody wyprodukowane w latach 2021–2023 włącznie, których stan licznika nie przekracza 50000 km.",
+    "wskazowka": "SELECT ... FROM ... WHERE kolumna BETWEEN ... AND ... AND kolumna <= ...;",
+    "odpowiedz": "SELECT VIN, model, rocznik, stan_licznika FROM samochody WHERE rocznik BETWEEN 2021 AND 2023 AND stan_licznika <= 50000;"
+  },
+  {
+    "id": 34,
+    "date": "2026-10-11",
+    "pytanie": "Wyświetl trzy samochody o najmniejszym stanie licznika. Wynik powinien zawierać model, rocznik i stan licznika.",
+    "wskazowka": "SELECT ... FROM ... ORDER BY ... ASC LIMIT ...;",
+    "odpowiedz": "SELECT model, rocznik, stan_licznika FROM samochody ORDER BY stan_licznika ASC LIMIT 3;"
+  },
+  {
+    "id": 35,
+    "date": "2026-10-11",
+    "pytanie": "Wyświetl imię i nazwisko pracownika, który otrzymał najwyższą pojedynczą wypłatę.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... ON ... WHERE kolumna = (SELECT MAX(...) FROM ...);",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, w.kwota FROM pracownicy p JOIN wyplaty w ON p.id = w.pracownik_id WHERE w.kwota = (SELECT MAX(kwota) FROM wyplaty);"
+  },
+  {
+    "id": 36,
+    "date": "2026-10-12",
+    "pytanie": "Wyświetl samochody, których stan licznika jest większy od średniego stanu licznika wszystkich samochodów.",
+    "wskazowka": "SELECT ... FROM ... WHERE kolumna > (SELECT AVG(kolumna) FROM ...);",
+    "odpowiedz": "SELECT model, rocznik, stan_licznika FROM samochody WHERE stan_licznika > (SELECT AVG(stan_licznika) FROM samochody);"
+  },
+  {
+    "id": 37,
+    "date": "2026-10-13",
+    "pytanie": "Wyświetl pracowników, których suma wszystkich wypłat jest większa od średniej sumy wypłat przypadającej na pracownika.",
+    "wskazowka": "SELECT ... FROM ... GROUP BY ... HAVING SUM(...) > (SELECT AVG(...) FROM (SELECT ... GROUP BY ...) alias);",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, SUM(w.kwota) AS suma_wyplat FROM pracownicy p JOIN wyplaty w ON p.id = w.pracownik_id GROUP BY p.id, p.imie, p.nazwisko HAVING SUM(w.kwota) > (SELECT AVG(suma) FROM (SELECT SUM(kwota) AS suma FROM wyplaty GROUP BY pracownik_id) x);"
+  },
+  {
+    "id": 38,
+    "date": "2026-10-13",
+    "pytanie": "Wyświetl klientów, którzy dokonali więcej wypożyczeń niż średnia liczba wypożyczeń przypadająca na klienta.",
+    "wskazowka": "SELECT ... GROUP BY ... HAVING COUNT(...) > (SELECT AVG(...) FROM (SELECT COUNT(...) ... GROUP BY ...) alias);",
+    "odpowiedz": "SELECT k.imie, k.nazwisko, COUNT(w.Klient_id) AS liczba_wypozyczen FROM Klienci k JOIN wypozyczenia w ON k.id = w.Klient_id GROUP BY k.id, k.imie, k.nazwisko HAVING COUNT(w.Klient_id) > (SELECT AVG(liczba) FROM (SELECT COUNT(*) AS liczba FROM wypozyczenia GROUP BY Klient_id) x);"
+  },
+  {
+    "id": 39,
+    "date": "2026-10-13",
+    "pytanie": "Wyświetl markę, model oraz stan licznika samochodów, których przebieg jest największy wśród samochodów danej marki.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... WHERE kolumna = (SELECT MAX(...) FROM ... WHERE klucz = tabela.klucz);",
+    "odpowiedz": "SELECT m.nazwa, s.model, s.stan_licznika FROM samochody s JOIN marki m ON s.marki_id = m.id WHERE s.stan_licznika = (SELECT MAX(s2.stan_licznika) FROM samochody s2 WHERE s2.marki_id = s.marki_id);"
+  },
+  {
+    "id": 40,
+    "date": "2026-10-14",
+    "pytanie": "Wyświetl klientów, którzy nie mają żadnego wypożyczenia ze statusem „Anulowane”.",
+    "wskazowka": "SELECT ... FROM tabela1 WHERE NOT EXISTS (SELECT ... FROM tabela2 WHERE warunek);",
+    "odpowiedz": "SELECT k.imie, k.nazwisko FROM Klienci k WHERE NOT EXISTS (SELECT 1 FROM wypozyczenia w WHERE w.Klient_id = k.id AND w.status_wypozyczenia_id = 4);"
+  },
+  {
+    "id": 41,
+    "date": "2026-10-14",
+    "pytanie": "Wyświetl samochody, które były wypożyczane co najmniej raz oraz ich ostatnią datę wypożyczenia.",
+    "wskazowka": "SELECT ..., MAX(...) FROM ... JOIN ... ON ... GROUP BY ...;",
+    "odpowiedz": "SELECT s.model, MAX(w.data_wypozyczenia) AS ostatnie_wypozyczenie FROM samochody s JOIN wypozyczenia w ON s.VIN = w.VIN_samochodu GROUP BY s.VIN, s.model;"
+  },
+  {
+    "id": 42,
+    "date": "2026-10-15",
+    "pytanie": "Wyświetl dla każdego klienta liczbę wszystkich wypożyczeń oraz łączną kwotę do zapłaty. Uwzględnij również klientów bez wypożyczeń.",
+    "wskazowka": "SELECT ..., COUNT(...), COALESCE(SUM(...), 0) FROM ... LEFT JOIN ... GROUP BY ...;",
+    "odpowiedz": "SELECT k.imie, k.nazwisko, COUNT(w.VIN_samochodu) AS liczba_wypozyczen, COALESCE(SUM(w.kwota_do_zaplaty), 0) AS suma_kwot FROM Klienci k LEFT JOIN wypozyczenia w ON k.id = w.Klient_id GROUP BY k.id, k.imie, k.nazwisko;"
+  },
+  {
+    "id": 43,
+    "date": "2026-10-15",
+    "pytanie": "Wyświetl miesiąc oraz sumę wypłat dokonanych w 2025 roku. Wynik przedstaw od stycznia do grudnia.",
+    "wskazowka": "SELECT MONTH(data), SUM(...) FROM ... WHERE YEAR(data) = ... GROUP BY MONTH(data) ORDER BY MONTH(data);",
+    "odpowiedz": "SELECT MONTH(data) AS miesiac, SUM(kwota) AS suma_wyplat FROM wyplaty WHERE YEAR(data) = 2025 GROUP BY MONTH(data) ORDER BY MONTH(data);"
+  },
+  {
+    "id": 44,
+    "date": "2026-10-15",
+    "pytanie": "Wyświetl nazwę marki oraz liczbę samochodów tej marki będących aktualnie dostępnych.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... JOIN ... JOIN ... WHERE ... = ... GROUP BY ...;",
+    "odpowiedz": "SELECT m.nazwa, COUNT(s.VIN) AS liczba_dostepnych FROM marki m JOIN samochody s ON m.id = s.marki_id JOIN stan_samochodow ss ON s.stan_id = ss.id WHERE ss.nazwa = 'Dostępny' GROUP BY m.id, m.nazwa;"
+  },
+  {
+    "id": 45,
+    "date": "2026-10-16",
+    "pytanie": "Wyświetl imię i nazwisko pracowników oraz liczbę wypożyczeń, które nadzorowali. Posortuj wynik malejąco według liczby wypożyczeń.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... LEFT JOIN ... ON ... GROUP BY ... ORDER BY ... DESC;",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, COUNT(w.Klient_id) AS liczba_nadzorowanych FROM pracownicy p LEFT JOIN wypozyczenia w ON p.id = w.id_pracownika_nadzorujacego GROUP BY p.id, p.imie, p.nazwisko ORDER BY liczba_nadzorowanych DESC;"
+  },
+  {
+    "id": 46,
+    "date": "2026-10-16",
+    "pytanie": "Wyświetl klientów oraz liczbę różnych samochodów, które wypożyczyli. Nie licz wielokrotnego wypożyczenia tego samego samochodu więcej niż raz.",
+    "wskazowka": "SELECT ..., COUNT(DISTINCT ...) FROM ... JOIN ... GROUP BY ...;",
+    "odpowiedz": "SELECT k.imie, k.nazwisko, COUNT(DISTINCT w.VIN_samochodu) AS liczba_roznych_samochodow FROM Klienci k JOIN wypozyczenia w ON k.id = w.Klient_id GROUP BY k.id, k.imie, k.nazwisko;"
+  },
+  {
+    "id": 47,
+    "date": "2026-10-16",
+    "pytanie": "Wyświetl rok produkcji oraz liczbę samochodów wyprodukowanych w każdym roku. Uwzględnij tylko lata, w których wyprodukowano co najmniej dwa samochody.",
+    "wskazowka": "SELECT ..., COUNT(...) FROM ... GROUP BY ... HAVING COUNT(...) >= ... ORDER BY ...;",
+    "odpowiedz": "SELECT rocznik, COUNT(*) AS liczba_samochodow FROM samochody GROUP BY rocznik HAVING COUNT(*) >= 2 ORDER BY rocznik;"
+  },
+  {
+    "id": 48,
+    "date": "2026-10-17",
+    "pytanie": "Wyświetl klientów, którzy wypożyczali zarówno samochody marki Toyota, jak i samochody marki BMW.",
+    "wskazowka": "SELECT ... FROM ... JOIN ... GROUP BY ... HAVING COUNT(DISTINCT CASE WHEN ... THEN ... END) = ...;",
+    "odpowiedz": "SELECT k.imie, k.nazwisko FROM Klienci k JOIN wypozyczenia w ON k.id = w.Klient_id JOIN samochody s ON w.VIN_samochodu = s.VIN JOIN marki m ON s.marki_id = m.id WHERE m.nazwa IN ('Toyota', 'BMW') GROUP BY k.id, k.imie, k.nazwisko HAVING COUNT(DISTINCT m.nazwa) = 2;"
+  },
+  {
+    "id": 49,
+    "date": "2026-10-17",
+    "pytanie": "Wyświetl samochody, które mają więcej wypożyczeń niż średnia liczba wypożyczeń przypadająca na jeden samochód.",
+    "wskazowka": "SELECT ... GROUP BY ... HAVING COUNT(...) > (SELECT AVG(...) FROM (SELECT COUNT(...) ... GROUP BY ...) alias);",
+    "odpowiedz": "SELECT s.model, COUNT(w.VIN_samochodu) AS liczba_wypozyczen FROM samochody s JOIN wypozyczenia w ON s.VIN = w.VIN_samochodu GROUP BY s.VIN, s.model HAVING COUNT(w.VIN_samochodu) > (SELECT AVG(liczba) FROM (SELECT COUNT(*) AS liczba FROM wypozyczenia GROUP BY VIN_samochodu) x);"
+  },
+  {
+    "id": 50,
+    "date": "2026-10-17",
+    "pytanie": "Utwórz zestawienie pracowników zawierające imię, nazwisko, stanowisko, liczbę wypłat, sumę wypłat oraz średnią wypłatę. Uwzględnij tylko pracowników, którzy otrzymali co najmniej 5 wypłat, a wynik posortuj malejąco według sumy wypłat.",
+    "wskazowka": "SELECT ... COUNT(...), SUM(...), AVG(...) FROM ... JOIN ... ON ... JOIN ... ON ... GROUP BY ... HAVING COUNT(...) >= ... ORDER BY ... DESC;",
+    "odpowiedz": "SELECT p.imie, p.nazwisko, s.nazwa_stanowiska, COUNT(w.id) AS liczba_wyplat, SUM(w.kwota) AS suma_wyplat, ROUND(AVG(w.kwota), 2) AS srednia_wyplata FROM pracownicy p JOIN stanowiska s ON p.stanowiska_id = s.id JOIN wyplaty w ON p.id = w.pracownik_id GROUP BY p.id, p.imie, p.nazwisko, s.nazwa_stanowiska HAVING COUNT(w.id) >= 5 ORDER BY suma_wyplat DESC;"
+  }
+]

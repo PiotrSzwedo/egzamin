@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/egzamin/static/css/main.a309aa70.css",
+    "main.js": "/egzamin/static/js/main.218a113a.js",
+    "static/js/453.aa3f1b5d.chunk.js": "/egzamin/static/js/453.aa3f1b5d.chunk.js",
+    "index.html": "/egzamin/index.html",
+    "main.a309aa70.css.map": "/egzamin/static/css/main.a309aa70.css.map",
+    "main.218a113a.js.map": "/egzamin/static/js/main.218a113a.js.map",
+    "453.aa3f1b5d.chunk.js.map": "/egzamin/static/js/453.aa3f1b5d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a309aa70.css",
+    "static/js/main.218a113a.js"
+  ]
+}
