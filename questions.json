@@ -107,7 +107,7 @@
   {
     "id": 16,
     "date": "2026-10-01",
-    "pytanie": "Wyświetl wszystkie wypożyczenia wraz z imieniem i nazwiskiem pracownika nadzorującego oraz nazwą statusu wypożyczenia.",
+    "pytanie": "Wyświetl wszystkie pola z tabeli wypożyczenia wraz z imieniem i nazwiskiem pracownika nadzorującego oraz nazwą statusu wypożyczenia.",
     "wskazowka": "SELECT ... FROM ... JOIN ... ON ... JOIN ... ON ...;",
     "odpowiedz": "SELECT w.data_wypozyczenia, p.imie, p.nazwisko, sw.nazwa FROM wypozyczenia w JOIN pracownicy p ON w.id_pracownika_nadzorujacego = p.id JOIN status_wypozyczenia sw ON w.status_wypozyczenia_id = sw.id;"
   },
